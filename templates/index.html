@@ -1,0 +1,60 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!--new-->
+{% if user.is_authenticated %}
+<h2><a href="{% url 'cart_detail' %}">My cart</a></h2>
+{% endif %}
+<!--new-->
+
+
+
+    <h1>Product List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th>Producer</th>
+                <th>   {% if user.is_authenticated %}Additional actions{% endif %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.title }}</td>
+                <td>{{ product.price }}$</td>
+                <td>{{ product.description }}</td>
+                <td><img src="{{ product.image_url }}" alt="{{ product.title }}" width="100"></td>
+                <td>
+                    {% for category in product.category.all %}
+                        {{ category.title }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ product.producer.name }}</td>
+
+
+                <td>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'update_cart' product.id 'add' %}?next={% url 'index_page' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background-color: limegreen; color: white; border: none; padding: 5px 10px; cursor: pointer;margin: 5px; transition: transform 0.2s;">Add position to the cart</button>
+                    </form>
+                {% endif %}
+                </td>
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
