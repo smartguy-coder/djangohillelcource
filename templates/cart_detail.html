@@ -1,0 +1,69 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2><a href="{% url 'index_page' %}">Main page</a></h2>
+
+{% if cart %}
+
+    <h1>Products in cart</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Cost</th>
+                <th>Image</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cart_item in items %}
+            <tr>
+                <td>{{ cart_item.product.title }}</td>
+                <td>{{ cart_item.product.price }}$</td>
+                <td>{{ cart_item.quantity }}</td>
+                <td style="text-align: right;">{{ cart_item.total_price }}</td>
+                <td><img src="{{ cart_item.product.image_url }}" alt="{{ product.title }}" width="100"></td>
+                <td>
+                    <form action="{% url 'update_cart' cart_item.product.id 'add' %}?next={% url 'cart_detail' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background-color: limegreen; color: white; border: none; padding: 5px 10px; cursor: pointer;margin: 5px; transition: transform 0.2s;">Add position to the cart</button>
+                    </form>
+                    <form action="{% url 'update_cart' cart_item.product.id 'remove' %}?next={% url 'cart_detail' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit"  style="background-color: FireBrick; color: white; border: none; padding: 5px 10px; cursor: pointer;margin: 5px; transition: transform 0.2s;">Remove position from the cart</button>
+                    </form>
+
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total Cost:</strong></td>
+                <td style="text-align: right;"><strong>{{ total_cost }}$</strong></td></td>
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
+
+    </table>
+{% else %}
+    <h1>There are no products in the cart yet</h1>
+{% endif %}
+
+
+{% if total_cost %}
+    <form action="{% url 'process_stripe_payment' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" style="background-color: limegreen; color: white; border: none; padding: 5px 10px; cursor: pointer;margin: 5px;">Buy now</button>
+    </form>
+{% endif %}
+
+
+{% endblock %}
