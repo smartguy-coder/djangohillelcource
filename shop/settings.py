@@ -173,14 +173,24 @@ CACHES = {
     }
 }
 
-# CACHEOPS_ENABLED = True
-# CACHEOPS_REDIS_HOST = 'redis'
-# CACHEOPS_REDIS_DB = 1
-# CACHEOPS_REDIS_PORT = 6379
-# CACHEOPS_REDIS_PASSWORD = ""
-# CACHEOPS = {
-#     # recommended by authors
-#     'auth.user': {'ops': 'get', 'timeout': 15},
-#     'auth.*': {'ops': ('fetch', 'get'), 'timeout': 15},
-#     'auth.permission': {'ops': 'all', 'timeout': 15},
-# }
+CACHEOPS_ENABLED = True
+CACHEOPS_REDIS = {
+    'host': 'redis',  # redis-server is on same machine
+    'port': 6379,        # default redis port
+    'db': 1,             # SELECT non-default redis database
+                         # using separate redis db or redis instance
+                         # is highly recommended
+
+    'socket_timeout': 3,   # connection timeout in seconds, optional
+}
+CACHEOPS = {
+    # recommended by authors
+    'auth.user': {'ops': 'get', 'timeout': 15},
+    'auth.*': {'ops': ('fetch', 'get'), 'timeout': 15},
+    'auth.permission': {'ops': 'all', 'timeout': 15},
+
+    # our models
+    'retail.producer': {'ops': 'all', 'timeout': 15},
+    'retail.product': {'ops': 'all', 'timeout': 15},
+    'retail.productcategory': {'ops': 'all', 'timeout': 15},
+}
