@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'retail',
     'debug_toolbar',
-    'silk'
+    'silk',
     'cacheops'
 ]
 
@@ -173,14 +173,14 @@ CACHES = {
     }
 }
 
-CACHEOPS_ENABLED = True
-CACHEOPS_REDIS_HOST = 'redis'
-CACHEOPS_REDIS_DB = 1
-CACHEOPS_REDIS_PORT = 6379
-CACHEOPS_REDIS_PASSWORD = ""
-CACHEOPS = {
-    # recommended by authors
-    'auth.user': {'ops': 'get', 'timeout': 15},
-    'auth.*': {'ops': ('fetch', 'get'), 'timeout': 15},
-    'auth.permission': {'ops': 'all', 'timeout': 15},
-}
+# CACHEOPS_ENABLED = True
+# CACHEOPS_REDIS_HOST = 'redis'
+# CACHEOPS_REDIS_DB = 1
+# CACHEOPS_REDIS_PORT = 6379
+# CACHEOPS_REDIS_PASSWORD = ""
+# CACHEOPS = {
+#     # recommended by authors
+#     'auth.user': {'ops': 'get', 'timeout': 15},
+#     'auth.*': {'ops': ('fetch', 'get'), 'timeout': 15},
+#     'auth.permission': {'ops': 'all', 'timeout': 15},
+# }
