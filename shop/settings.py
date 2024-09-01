@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'retail',
     'debug_toolbar',
     'silk',
-    'cacheops'
+    'cacheops',
 'rest_framework',
 ]
 

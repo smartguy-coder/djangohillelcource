@@ -7,6 +7,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 from retail.models import Product, Cart, CartItem
 
+from rest_framework import viewsets
+from retail.models import ProductCategory
+from retail.serializers import ProductCategorySerializer
+
+
+class ProductCategoryViewSet(viewsets.ModelViewSet):
+    queryset = ProductCategory.objects.all()
+    serializer_class = ProductCategorySerializer
+
 
 def get_all_products(request):
     products = Product.objects.select_related(
