@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'silk',
     'cacheops'
+'rest_framework',
 ]
 
 MIDDLEWARE = [

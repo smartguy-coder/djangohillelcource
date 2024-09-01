@@ -5,9 +5,10 @@ from django.urls import path, include
 urlpatterns = [
 
     path("admin/", admin.site.urls),
-path('', include('django.contrib.auth.urls')),
+    path('', include('django.contrib.auth.urls')),
     path("", include('retail.urls')),
-path('silk/', include('silk.urls', namespace='silk'))
+    path("api/", include('api.urls')),
+    path('silk/', include('silk.urls', namespace='silk'))
 ]
 
 
