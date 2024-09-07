@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'silk',
     'cacheops',
-'rest_framework',
+    'rest_framework',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -194,4 +195,18 @@ CACHEOPS = {
     'retail.producer': {'ops': 'all', 'timeout': 15},
     'retail.product': {'ops': 'all', 'timeout': 15},
     'retail.productcategory': {'ops': 'all', 'timeout': 15},
+}
+
+
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Hillel Django course Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }

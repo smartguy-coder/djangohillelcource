@@ -26,14 +26,16 @@ services:
       retries: 3
       start_period: 10s
     env_file: ./.env
+    depends_on:
+      - postgres_database
     volumes:
       - .:/app
       - static_volume:/app/static
     ports:
       - "8500:8000"
-    # command: sh -c "gunicorn --bind 0.0.0.0:8000 settings.wsgi:application  --reload -w 4 --log-level info"
-#     or
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "gunicorn --bind 0.0.0.0:8000 shop.wsgi:application  --reload -w 4 --log-level info"
+  #     or
+  #    command: sh -c "python manage.py runserver 0.0.0.0:8000"
     networks:
       - main_network
 
