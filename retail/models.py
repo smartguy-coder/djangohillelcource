@@ -29,6 +29,14 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def instant_discount(self):
+        if self.price > 100:
+            return 0.05
+        elif self.price > 500:
+            return 0.1
+        return 0
+
 
 # new
 class Cart(models.Model):
