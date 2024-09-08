@@ -10,20 +10,24 @@ from retail.models import Product, Cart, CartItem
 from rest_framework import viewsets, generics
 from retail.models import ProductCategory
 from retail.serializers import ProductCategorySerializer, ProductSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 class ProductCategoryViewSet(viewsets.ModelViewSet):
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
 
-
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 class ProductRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 def get_all_products(request):
     products = Product.objects.select_related(
