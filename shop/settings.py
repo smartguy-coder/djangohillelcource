@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-d+!tp-mk6vch*o7re$lh1j8ihfcu+wupl1433i-nmdru$rp5&c"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = ['*', 'https://fbf7-188-130-177-189.ngrok-free.app']
+ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://fbf7-188-130-177-189.ngrok-free.app']
 
 import sentry_sdk

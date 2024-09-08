@@ -14,7 +14,7 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path("", include('retail.urls')),
     path("api/", include('api.urls')),
-    path('silk/', include('silk.urls', namespace='silk')),
+
 
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:
@@ -36,4 +36,5 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
+        path('silk/', include('silk.urls', namespace='silk')),
     ] + urlpatterns

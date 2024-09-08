@@ -19,7 +19,7 @@ class Producer(models.Model):
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=201)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.TextField()
     image_url = models.URLField()
