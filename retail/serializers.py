@@ -1,11 +1,22 @@
 from rest_framework import serializers
-from .models import ProductCategory, Producer, Product
+from .models import ProductCategory, Producer, Product, CartItem, Cart
 
+from django.contrib.auth import get_user_model
+from .models import Cart, CartItem, Product
+
+UserModel = get_user_model()
+
+# Серіалізатор для користувача
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = ['id', 'username', 'email']  # Вкажіть необхідні поля
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductCategory
         fields = '__all__'
+
 
 class ProducerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,3 +68,20 @@ class ProductSerializer(serializers.ModelSerializer):
             instance.category.add(category)
 
         return instance
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()  # Вкладений серіалізатор для товару
+    total_price = serializers.DecimalField(max_digits=8, decimal_places=2)
+
+    class Meta:
+        model = CartItem
+        fields = ['id', 'product', 'quantity', 'total_price']
+
+class CartSerializer(serializers.ModelSerializer):
+    user = UserSerializer()  # Вкладений серіалізатор для користувача
+    items = CartItemSerializer(many=True)  # Вкладений серіалізатор для елементів кошика
+    total_cart_price = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        model = Cart
+        fields = ['id', 'is_closed', 'created_at', 'updated_at', 'items', 'total_cart_price', 'user']

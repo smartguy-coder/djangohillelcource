@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, F
 
+
 from retail.models import Product, Cart, CartItem
 
 stripe.api_key = settings.STRIPE_KEY
@@ -23,6 +24,7 @@ def index(request):
         'category'
     ).all()
     result = cache.get('my_key')
+
     if result is None:
         # Якщо результат не в кеші, обчислюємо його і кешуємо
         result = 'calculated data'

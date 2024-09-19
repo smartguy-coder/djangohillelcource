@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   nginx:
     image: nginx:alpine
@@ -14,9 +16,7 @@ services:
       - main_network
 
   web-app:
-    build:
-      dockerfile: ./Dockerfile
-      context: .
+    image: kartychak/hillel-django-project:0.1.0
     container_name: web-app
     restart: on-failure
     platform: linux/amd64
@@ -29,14 +29,8 @@ services:
     env_file: ./.env
     depends_on:
       - postgres_database
-    volumes:
-      - .:/app
-      - static_volume:/app/static
-    ports:
-      - "8500:8000"
-#    command: sh -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 shop.wsgi:application --reload -w 4 --log-level info"
-  #     or
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 shop.wsgi:application --reload -w 4 --log-level info"
+
     networks:
       - main_network
 
@@ -45,11 +39,9 @@ services:
     container_name: postgres_database
     restart: always
     environment:
-#      - POSTGRES_HOST=postgres_database
       - POSTGRES_DB=db_name
       - POSTGRES_USER=de_user
       - POSTGRES_PASSWORD=db_password
-#      - POSTGRES_PORT=5432
     ports:
       - "5432:5432"
     volumes:
@@ -74,8 +66,6 @@ services:
     container_name: redis
     restart: unless-stopped
     env_file: .env
-    ports:
-      - "6380:6379"
     volumes:
       - ./redis_data:/data   #  redis side we can see by command "CONFIG get dir" in cli
     command: [ "redis-server", "--appendonly", "no", "--maxmemory", "100mb", "--maxmemory-policy", "allkeys-lru" ]
@@ -84,41 +74,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-    links:
-      - redis-commander
-      - redis-insight
     networks:
       - main_network
-      - redis_network
-
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    container_name: redis-commander
-    restart: unless-stopped
-    env_file: .env
-    ports:
-      - "8081:8081"
-    networks:
-      - redis_network
-
-  redis-insight:
-    image: redis/redisinsight:latest
-    container_name: redis-insight
-    restart: unless-stopped
-    ports:
-      - "5540:5540"
-    volumes:
-      - redis-insight:/data
-    networks:
-      - redis_network
 
 networks:
   main_network:
-    driver: bridge
-  redis_network:
     driver: bridge
 
 volumes:
   static_volume:
   postgres-data:
-  redis-insight:
